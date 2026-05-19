@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
-    name: 'app:makeAdminCommand',
+    name: 'app:make-admin-command',
     description: 'Crée un administrateur en base de données',
 )]
 class MakeAdminCommand extends Command
