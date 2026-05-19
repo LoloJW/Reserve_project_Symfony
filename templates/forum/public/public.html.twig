@@ -1,5 +1,5 @@
 {% extends 'base/website.html.twig' %}
-
+{% block title %}Forum Public{% endblock %}
 {% block main %}
     {% include "forum/nav_forum.html.twig" %}
     <a href="{{path('app_forum_public_new_subject')}}" class="btn btn-primary text-center align-content-center mt-3"><i class="fa-solid fa-plus"></i> Nouveau sujet</a>

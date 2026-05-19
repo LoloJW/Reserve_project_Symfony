@@ -1,5 +1,5 @@
 {% extends 'base/website.html.twig' %}
-
+{% block title %}{{annonce.title}}{% endblock %}
 {% block main %}
     <a href="{{path('app_forum_announcements')}}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Retour</a>
 

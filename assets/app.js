@@ -8,7 +8,6 @@
 import './styles/app.scss';
 import 'bootstrap';
 import DataTable from 'datatables.net-bs5';
-import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 //___________
 import { createApp } from 'vue';
 import App from './vue/app.vue';
@@ -30,7 +29,7 @@ document.querySelectorAll('.btn-like').forEach(button => {
     });
 });
 
-// Le humberger menu de la navbar en format mobile
+// Le humburger menu de la navbar en format mobile
 const  burger_menu = document.querySelector('.burger_menu');
 const navmenu = document.querySelector(".navmenu");
 const navmenu_admin = document.querySelector(".navmenu_admin");
@@ -178,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// Gestion Avatar
+// Gestion Avatar profile
 const btn_edit_avatar = document.getElementById('avatar_form_imgFile_file');
 const btn_delete_avatar = document.getElementById('avatar_form_imgFile_delete');
 const avatarForm = document.getElementById('avatar_form');

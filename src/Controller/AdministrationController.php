@@ -125,7 +125,7 @@ final class AdministrationController extends AbstractController
             "form" => $form->createView(),
         ]);
     }
-    #[Route('/salles/delete{id}', name: 'app_delete_salles', methods: ['GET','POST'])]
+    #[Route('/salles/delete{id}', name: 'app_delete_salles', methods: ['POST'])]
     public function deleteSalles(int $id, Request $request, RoomsRepository $RR, EntityManagerInterface $em): Response
     {
         $rooms = $RR->find($id);

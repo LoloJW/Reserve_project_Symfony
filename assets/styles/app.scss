@@ -707,7 +707,6 @@ tr:hover:not(.first_line) td:hover {
     height: 100px;
     width: 100px;
     border-radius: 50%;
-    background-color: #ffffff;
     border: solid $primary;
     display: flex;
     justify-content: center;
@@ -717,8 +716,9 @@ tr:hover:not(.first_line) td:hover {
     height: 80px;
     width: 80px;
     border-radius: 50%;
-  background-color: #ffffff;
-  object-fit: cover;
+    background-color: #ffffff;
+    object-fit: cover;
+    flex-shrink: 0;
   }
 
 // ============================================================
@@ -884,6 +884,24 @@ footer {
   .btn_responsive_admin_nav.showed{
     border-color: $success;
   }
+  .avatar_adminspace_box {
+    height: 30px;
+    width: 30px;
+  }
+  .avatar_adminspace {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    object-fit: cover;
+  }
+  .avatar_adminspace_box {
+    height: 40px;
+    width: 40px;
+    background-color: #ffffff;
+    object-fit: cover;
+  }
+  
   .sombrer{
     background-color: rgba(0, 0, 0, 0.305);  
   }

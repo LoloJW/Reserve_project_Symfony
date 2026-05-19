@@ -27,7 +27,7 @@ final class ReserveController extends AbstractController
                 'id' => $user->getId(),
                 'firstName' => $user->getFirstName(),
                 'lastName' => $user->getLastName(),
-                'avatar' => $user->getImgProfile(),
+                'avatar' => $user->getImgProfile() ? '/images/avatars/'.$user->getImgProfile() : 'images/avatar.png',
             ];
         }, $users);
 

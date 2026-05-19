@@ -38,7 +38,8 @@
                     :key="Cell.heure" 
                     :class="Cell.reservation ? `reserved-${Cell.reservation.type}` : ''" 
                     :colspan="Cell.colspan" 
-                    @click="Cell.reservation ? ouvrirModaleReservation(Cell.reservation) : ouvrirModale(salle.roomNumber, salle.id, Cell.heure)">
+                    @click="ouvrirModale(salle.roomNumber, salle.id, Cell.heure)">
+                    <!-- @click="Cell.reservation ? ouvrirModaleReservation(Cell.reservation) : ouvrirModale(salle.roomNumber, salle.id, Cell.heure)"> -->
                         <div v-if="Cell.reservation">
                             <div class="text-secondary">
                                 <p class="m-auto">Réunion de "{{ Cell.reservation.name }}", de {{ Cell.reservation.timeStart }} a {{ Cell.reservation.timeEnd }}</p>
@@ -122,7 +123,7 @@
                             @click="ajouterUtilisateur(utilisateur)">
                                 <div class="w-75" :class="invités.some(i => i.id === utilisateur.id) ? 'bg-success rounded-3' : ''">
                                     <div class="w-100 d-flex justify-content-center align-items-center">
-                                        <div class="box_img_profile_reservation"><img :src="avatars" alt="Profile" class="img_profile_reservation"></div>
+                                        <div class="box_img_profile_reservation"><img :src="utilisateur.avatar" :alt="utilisateur.firstName" class="img_profile_reservation"></div>
                                     </div>
                                     <span class="d-block text-center">{{ utilisateur.firstName }}</span> <span class="d-block text-center">{{ utilisateur.lastName }}</span>
                                 </div>
@@ -133,7 +134,7 @@
             </div>
         </div>
     </div>  
-    <div v-if="modaleReservationVisible" class="modale">
+    <!-- <div v-if="modaleReservationVisible" class="modale">
         <div>
             dazdazdazddaz
         </div>
@@ -144,7 +145,7 @@
             {{ Cell.reservation.type }}
             {{ Cell.reservation.user }}
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script setup>
@@ -152,7 +153,6 @@ import { computed, ref } from 'vue';
 
 const container = document.querySelector('#vue-app');
 
-const avatars = container.dataset.avatars;
 const rooms = JSON.parse(container.dataset.rooms);
 const reservations = JSON.parse(container.dataset.reservationsrooms);
 const types = JSON.parse(container.dataset.reservationtypes);
@@ -222,19 +222,18 @@ function ouvrirModale(salle,salleId, heure) {
     document.querySelector('header').classList.add('darkened_blurred');
     document.querySelector('footer').classList.add('blurred');
 }
-function ouvrirModaleReservation(Cell) {
-    modaleReservationVisible.value = true
-    document.querySelector('header').classList.add('darkened_blurred');
-    document.querySelector('footer').classList.add('blurred');
-}
+// function ouvrirModaleReservation(Cell) {
+//     modaleReservationVisible.value = true
+//     document.querySelector('header').classList.add('darkened_blurred');
+//     document.querySelector('footer').classList.add('blurred');
+// }
 function ajouterUtilisateur(utilisateur){
     const checkUser = invités.value.find(i => i.id === utilisateur.id);
     if (!checkUser) {
         invités.value.push(utilisateur);
     }
     else {
-        invités.value = invités.value.filter
-        (i => i.id !== utilisateur.id);
+        invités.value = invités.value.filter(i => i.id !== utilisateur.id);
     }
 }
 function fermerModale() {
@@ -244,11 +243,11 @@ function fermerModale() {
     document.querySelector('header').classList.remove('darkened_blurred');
     document.querySelector('footer').classList.remove('blurred');
 }
-function fermerModaleReservation() {
-    modaleReservationVisible.value = false;
-    document.querySelector('header').classList.remove('darkened_blurred');
-    document.querySelector('footer').classList.remove('blurred');
-}
+// function fermerModaleReservation() {
+//     modaleReservationVisible.value = false;
+//     document.querySelector('header').classList.remove('darkened_blurred');
+//     document.querySelector('footer').classList.remove('blurred');
+// }
 async function validerReservation() {
     if (!heureSelected.value || 
     !heureFinSelected.value || 
