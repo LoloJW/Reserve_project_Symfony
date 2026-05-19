@@ -127,7 +127,8 @@ class Announcement
 
         return $this;
     }
-        public function getSlug(): ?string
+
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
@@ -138,11 +139,13 @@ class Announcement
 
         return $this;
     }
-    public function getLikesCount():int
+
+    public function getLikesCount(): int
     {
         return $this->userLikes->count();
     }
-    public function isLiked(?User $user):bool
+
+    public function isLiked(?User $user): bool
     {
         if (!$user) {
             return false;
@@ -153,6 +156,7 @@ class Announcement
                 return true;
             }
         }
+
         return false;
     }
 }

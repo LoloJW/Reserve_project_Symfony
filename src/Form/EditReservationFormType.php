@@ -20,14 +20,14 @@ class EditReservationFormType extends AbstractType
     {
         $builder
             ->add('type', EnumType::class, [
-                "class" => ReservationType::class,
-                "label" => "Type de réservation"
+                'class' => ReservationType::class,
+                'label' => 'Type de réservation',
             ])
-            ->add('reservedFor',DateType::class, [
+            ->add('reservedFor', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'Jour'
+                'label' => 'Jour',
             ])
-            ->add('timeStart',TimeType::class, [
+            ->add('timeStart', TimeType::class, [
                 'widget' => 'single_text',
                 'label' => 'Heure de debut',
                 'hours' => range(8, 22),
@@ -37,12 +37,12 @@ class EditReservationFormType extends AbstractType
                 'label' => 'Heure de fin',
                 'hours' => range(9, 23),
             ])
-            ->add('name',TextType::class, [
-                'label' => 'Nom de la réunion'
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la réunion',
             ])
             ->add('userInvites', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => fn(User $user) => $user->getFirstName() . ' ' . $user->getLastName(),
+                'choice_label' => fn (User $user) => $user->getFirstName().' '.$user->getLastName(),
                 'multiple' => true,
                 'expanded' => true,
             ])

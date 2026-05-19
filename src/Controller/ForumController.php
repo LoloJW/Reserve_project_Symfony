@@ -28,27 +28,31 @@ final class ForumController extends AbstractController
                 'subjects' => $subject,
             ]);
     }
+
     #[Route('/forum/post/likes/{id}', name: 'app_forum_post_likes', methods: ['POST'])]
     public function postLikes(
-        Request $request, 
-        int $id, 
-        PostRepository $PR, 
+        Request $request,
+        int $id,
+        PostRepository $PR,
         UserLikeRepository $ULR,
         EntityManagerInterface $em): Response
     {
         $post = $PR->findOneBy(['id' => $id]);
-        $user=$this->getUser();
-        $existing = $ULR->findOneBy(["user" => $user, "post" => $post]);
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return $this->redirectToRoute('app_login');
+        }
+        $existing = $ULR->findOneBy(['user' => $user, 'post' => $post]);
 
-        if (!$this->isCsrfTokenValid("like_post", $request->request->get('_token'))) {
-            $this->addFlash('error', "Une erreur est survenue.");
+        if (!$this->isCsrfTokenValid('like_post', $request->request->get('_token'))) {
+            $this->addFlash('error', 'Une erreur est survenue.');
+
             return $this->redirectToRoute('app_forum_public');
         }
 
         if ($existing) {
             $em->remove($existing);
-            }
-        else{
+        } else {
             $like = new UserLike();
             $like->setUser($user);
             $like->setPost($post);
@@ -56,7 +60,7 @@ final class ForumController extends AbstractController
             $em->persist($like);
         }
         $em->flush();
-        
+
         return $this->redirect($request->headers->get('referer') ?? $this->generateUrl('app_forum_public'));
     }
 
@@ -70,12 +74,12 @@ final class ForumController extends AbstractController
 
         if ($request->isMethod('POST')) {
             if ($this->isCsrfTokenValid('new_subject', $request->request->get('_token'))) {
-
                 $post_content = $request->request->get('title');
                 $subject_content = $request->request->get('content');
 
                 if (empty($post_content) || empty($subject_content)) {
                     $this->addFlash('error', 'Les champs ne peuvent être vide');
+
                     return $this->redirectToRoute('app_forum_public_new_subject');
                 }
 
@@ -110,17 +114,17 @@ final class ForumController extends AbstractController
             throw $this->createAccessDeniedException();
         }
         $subject = $SR->findOneBy(['slug' => $slug]);
-        if (!$subject || $subject->isPrivate() === true) {
+        if (!$subject || true === $subject->isPrivate()) {
             $this->addFlash('error', "Ce sujet n'existe pas.");
 
             return $this->redirectToRoute('app_forum_public');
         }
         if ($request->isMethod('POST')) {
             if ($this->isCsrfTokenValid('new_post', $request->request->get('_token'))) {
-               
-                $post_content= $request->request->get('_post');
+                $post_content = $request->request->get('_post');
                 if (empty($post_content)) {
                     $this->addFlash('error', 'Le message ne peut pas être vide');
+
                     return $this->redirectToRoute('app_forum_public_subject', ['slug' => $subject->getSlug()]);
                 }
                 $post = new Post();
@@ -140,27 +144,33 @@ final class ForumController extends AbstractController
             'subject' => $subject,
         ]);
     }
+
     #[Route('/forum/subject/likes/{slug}', name: 'app_forum_subject_likes', methods: ['POST'])]
     public function subjectLikes(
-        Request $request, 
-        string $slug, 
-        SubjectRepository $SR, 
+        Request $request,
+        string $slug,
+        SubjectRepository $SR,
         UserLikeRepository $ULR,
         EntityManagerInterface $em): Response
     {
         $subject = $SR->findOneBy(['slug' => $slug]);
-        $user=$this->getUser();
-        $existing = $ULR->findOneBy(["user" => $user, "subject" => $subject]);
+        $user = $this->getUser();
 
-        if (!$this->isCsrfTokenValid("like_subject", $request->request->get('_token'))) {
-            $this->addFlash('error', "Une erreur est survenue.");
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $existing = $ULR->findOneBy(['user' => $user, 'subject' => $subject]);
+
+        if (!$this->isCsrfTokenValid('like_subject', $request->request->get('_token'))) {
+            $this->addFlash('error', 'Une erreur est survenue.');
+
             return $this->redirectToRoute('app_forum_public');
         }
 
         if ($existing) {
             $em->remove($existing);
-            }
-        else{
+        } else {
             $like = new UserLike();
             $like->setUser($user);
             $like->setSubject($subject);
@@ -168,19 +178,20 @@ final class ForumController extends AbstractController
             $em->persist($like);
         }
         $em->flush();
-        
+
         return $this->redirect($request->headers->get('referer') ?? $this->generateUrl('app_forum_public'));
     }
 
     #[Route('/forum/private', name: 'app_forum_private')]
     public function private(SubjectRepository $SR): Response
     {
-
         $subjects = $SR->findBy(['private' => true], ['createdAt' => 'DESC']);
-        return $this->render('forum/private/private.html.twig',[
-            "subjects" => $subjects
+
+        return $this->render('forum/private/private.html.twig', [
+            'subjects' => $subjects,
         ]);
     }
+
     #[Route('/forum/private/{slug}', name: 'app_forum_private_subject', methods: ['GET', 'POST'])]
     public function privateSubject(EntityManagerInterface $em, Request $request, string $slug, SubjectRepository $SR): Response
     {
@@ -189,22 +200,23 @@ final class ForumController extends AbstractController
             throw $this->createAccessDeniedException();
         }
         $subject = $SR->findOneBy(['slug' => $slug]);
-        if (!$subject || $subject->isPrivate() === false) {
+        if (!$subject || false === $subject->isPrivate()) {
             $this->addFlash('error', "Ce sujet n'existe pas.");
 
             return $this->redirectToRoute('app_forum_private');
         }
-        
+
         if ($user !== $subject->getUser() && !$subject->getReservation()->getUserInvites()->contains($user)) {
             $this->addFlash('error', "Vous n'êtes pas invité à cette réunion.");
+
             return $this->redirectToRoute('app_forum_private');
         }
         if ($request->isMethod('POST')) {
             if ($this->isCsrfTokenValid('new_post', $request->request->get('_token'))) {
-               
-                $post_content= $request->request->get('_post');
+                $post_content = $request->request->get('_post');
                 if (empty($post_content)) {
                     $this->addFlash('error', 'Le message ne peut pas être vide');
+
                     return $this->redirectToRoute('app_forum_private_subject', ['slug' => $subject->getSlug()]);
                 }
                 $post = new Post();
@@ -224,39 +236,46 @@ final class ForumController extends AbstractController
 
         return $this->render('forum/private/private_subject.html.twig', [
             'subject' => $subject,
-            'userInvites' => $userInvites
+            'userInvites' => $userInvites,
         ]);
     }
+
     #[Route('/forum/announcements', name: 'app_forum_announcements', methods: ['GET'])]
     public function announcements(AnnouncementRepository $AR): Response
     {
-        $annonces = $AR->findBy([],["createdAt" => "DESC"]);
+        $annonces = $AR->findBy([], ['createdAt' => 'DESC']);
 
-        return $this->render('forum/annonce/announcements.html.twig',[
-            "annonces" => $annonces
+        return $this->render('forum/annonce/announcements.html.twig', [
+            'annonces' => $annonces,
         ]);
     }
+
     #[Route('/forum/announcements/likes/{slug}', name: 'app_forum_announcements_likes', methods: ['POST'])]
     public function announcementsLikes(
-        Request $request, 
-        string $slug, 
-        AnnouncementRepository $AR, 
+        Request $request,
+        string $slug,
+        AnnouncementRepository $AR,
         UserLikeRepository $ULR,
         EntityManagerInterface $em): Response
     {
         $annonce = $AR->findOneBy(['slug' => $slug]);
-        $user=$this->getUser();
-        $existing = $ULR->findOneBy(["user" => $user, "announcement" => $annonce]);
+        $user = $this->getUser();
 
-        if (!$this->isCsrfTokenValid("like_announcement", $request->request->get('_token'))) {
-            $this->addFlash('error', "Une erreur est survenue.");
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $existing = $ULR->findOneBy(['user' => $user, 'announcement' => $annonce]);
+
+        if (!$this->isCsrfTokenValid('like_announcement', $request->request->get('_token'))) {
+            $this->addFlash('error', 'Une erreur est survenue.');
+
             return $this->redirectToRoute('app_forum_announcements');
         }
 
         if ($existing) {
             $em->remove($existing);
-            }
-        else{
+        } else {
             $like = new UserLike();
             $like->setUser($user);
             $like->setAnnouncement($annonce);
@@ -264,11 +283,12 @@ final class ForumController extends AbstractController
             $em->persist($like);
         }
         $em->flush();
-        
+
         return $this->redirect($request->headers->get('referer') ?? $this->generateUrl('app_forum_announcements'));
     }
+
     #[Route('/forum/annonces/{slug}', name: 'app_forum_annonces_subject', methods: ['GET', 'POST'])]
-    public function annoncesSubject( string $slug, AnnouncementRepository $AR): Response
+    public function annoncesSubject(string $slug, AnnouncementRepository $AR): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
@@ -283,14 +303,15 @@ final class ForumController extends AbstractController
         }
 
         return $this->render('forum/annonce/annonce_subject.html.twig', [
-            'annonce' => $annonce
+            'annonce' => $annonce,
         ]);
     }
+
     #[Route('/forum/test-likes', name: 'app_test_likes')]
     public function testLikes(AnnouncementRepository $AR): Response
     {
         $annonces = $AR->findAll();
-        
+
         return $this->render('test/likes.html.twig', [
             'annonces' => $annonces,
         ]);

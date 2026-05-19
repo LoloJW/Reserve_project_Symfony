@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\AnnouncementRepository;
 use App\Repository\ReservationRoomRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,22 +18,27 @@ final class WelcomeController extends AbstractController
     }
 
     #[Route('/welcome', name: 'app_welcome')]
-    public function index(AnnouncementRepository $AR,ReservationRoomRepository $RR): Response
+    public function index(AnnouncementRepository $AR, ReservationRoomRepository $RR): Response
     {
         $user = $this->getUser();
+        if (!$user instanceof User) {
+            return $this->redirectToRoute('app_login');
+        }
         $reservations = $RR->findReservationsWhereUserIsInvited($user);
-        $annonces = $AR->findBy([],["createdAt" => "DESC"], 2);
+        $annonces = $AR->findBy([], ['createdAt' => 'DESC'], 2);
 
-        return $this->render('welcome/index.html.twig',[
-            "annonces" => $annonces,
-            "reservations" => $reservations
+        return $this->render('welcome/index.html.twig', [
+            'annonces' => $annonces,
+            'reservations' => $reservations,
         ]);
     }
+
     #[Route('/welcome/confidential', name: 'app_welcome_confidential', methods: ['GET'])]
     public function politiqueDeConfidentialite(): Response
     {
         return $this->render('/welcome/politique-confidentialite.html.twig');
     }
+
     #[Route('/welcome/mentions_legales', name: 'app_welcome_mentions', methods: ['GET'])]
     public function mentionsLegales(): Response
     {

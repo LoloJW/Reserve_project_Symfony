@@ -54,7 +54,7 @@ final class ReserveController extends AbstractController
                 'firstName' => $reservationsRoom->getUser()->getFirstName(),
                 'lastName' => $reservationsRoom->getUser()->getLastName(),
                 'type' => $reservationsRoom->getType()->value,
-                'name' => $reservationsRoom->getName(),   
+                'name' => $reservationsRoom->getName(),
             ];
         }, $reservationsRooms);
 
@@ -83,15 +83,15 @@ final class ReserveController extends AbstractController
         $room = $RR->find($data['roomId']);
 
         $timeStart = new \DateTime($data['timeStart']);
-        $minStart = new \DateTime("8:00");
+        $minStart = new \DateTime('8:00');
 
         $timeEnd = new \DateTime($data['timeEnd']);
-        $maxEnd = new \DateTime("23:00");
+        $maxEnd = new \DateTime('23:00');
 
         $date = new \DateTime('today', new \DateTimeZone('Europe/Paris'));
         $invitedUsers = $data['invitedUsers'];
 
-        if($timeStart >= $timeEnd || $timeStart < $minStart || $timeEnd > $maxEnd) { 
+        if ($timeStart >= $timeEnd || $timeStart < $minStart || $timeEnd > $maxEnd) {
             return $this->json(['error' => 'Une erreur est survenue sur les horaires'], 400);
         }
         $conflict = $RRR->findConflict($room, $timeStart, $timeEnd, $date);
@@ -103,7 +103,6 @@ final class ReserveController extends AbstractController
         if (!$user instanceof User) {
             return $this->json(['error' => 'Un problème est survenue'], 500);
         }
-
 
         $reservation = new ReservationRoom();
         $reservation->setUser($user);
@@ -126,7 +125,7 @@ final class ReserveController extends AbstractController
         $reunion->setReservation($reservation);
         $reunion->setCreatedAt(new \DateTimeImmutable());
         $reunion->setUser($user);
-        
+
         $em->persist($reservation);
         $em->persist($reunion);
 

@@ -192,6 +192,7 @@ class Subject
 
         return $this;
     }
+
     public function getLikesCount(): int
     {
         return $this->userLikes->count();
@@ -208,6 +209,7 @@ class Subject
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -34,6 +34,9 @@ class ReservationRoomRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @return ReservationRoom[]
+     */
     public function findByDate(\DateTime $date): array
     {
         return $this->createQueryBuilder('reserve')
@@ -43,6 +46,9 @@ class ReservationRoomRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return ReservationRoom[]
+     */
     public function findReservationsWhereUserIsInvited(User $user): array
     {
         return $this->createQueryBuilder('reserve')
@@ -57,8 +63,6 @@ class ReservationRoomRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 
     //    public function findOneBySomeField($value): ?ReservationRoom
     //    {

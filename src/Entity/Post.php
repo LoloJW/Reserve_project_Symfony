@@ -125,21 +125,24 @@ class Post
 
         return $this;
     }
+
     public function getLikesCount(): int
     {
         return $this->userLikes->count();
     }
-    public function isLiked(?User $user):bool
+
+    public function isLiked(?User $user): bool
     {
-      if (!$user) {
+        if (!$user) {
             return false;
-          }
-          $userLikes = $this->userLikes;
-      foreach ($userLikes as $likes) {
+        }
+        $userLikes = $this->userLikes;
+        foreach ($userLikes as $likes) {
             if ($user == $likes->getUser()) {
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -36,7 +36,7 @@ class ProfileChangePasswordFormType extends AbstractType
                 'invalid_message' => 'Les mots de passes doivent correspondre',
                 'constraints' => [
                     new Assert\NotBlank([
-                        "message"=> 'Les champs doivent être remplis',
+                        'message' => 'Les champs doivent être remplis',
                     ]),
                     new Assert\Length([
                         'min' => 12,

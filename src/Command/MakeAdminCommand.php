@@ -19,7 +19,7 @@ class MakeAdminCommand extends Command
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private UserPasswordHasherInterface $hasher
+        private UserPasswordHasherInterface $hasher,
     ) {
         parent::__construct();
     }
@@ -45,7 +45,7 @@ class MakeAdminCommand extends Command
         $this->em->persist($user);
         $this->em->flush();
 
-        $io->success('Administrateur créé avec succès : ' . $email);
+        $io->success('Administrateur créé avec succès : '.$email);
 
         return Command::SUCCESS;
     }

@@ -20,13 +20,13 @@ class CreateRoomFormType extends AbstractType
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
-                    ]
+                ],
             ])
             ->add('whiteboard', ChoiceType::class, [
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
-                    ]
+                ],
             ])
         ;
     }
