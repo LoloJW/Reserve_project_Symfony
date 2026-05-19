@@ -128,6 +128,9 @@ input[type="file"] {
 .character_size {
   font-size: 18px;
 }
+.character_size_title {
+  font-size: 26px;
+}
 input[type="checkbox"] {
     height: auto ;
     width: auto ;
@@ -315,10 +318,11 @@ width: 16px !important;
 }
 
 .img_profile {
-  height: 40px;
-  width: 40px;
+  height: 45px;
+  width: 45px;
   border-radius: 50%;
   background-color: #ffffff;
+  border: solid $pikachu;
 }
 
 // ============================================================
@@ -365,6 +369,12 @@ width: 16px !important;
 .description_annonce_welcome_page {
   font-weight: 600;
   color: white;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 // ============================================================
@@ -372,6 +382,9 @@ width: 16px !important;
 // ============================================================
 table {
     table-layout: fixed;
+}
+.salle_column_reservation {
+  width: 15rem;
 }
 td p{
     overflow: hidden;
@@ -405,6 +418,11 @@ tr:hover:not(.first_line) td:hover {
 
 .first_column {
   width: 300px;
+}
+.invites-list {
+    max-height: 350px;     
+    overflow-y: auto;      
+    overflow-x: hidden;     
 }
 .profile_name_size {
   font-size: 8px;
@@ -456,6 +474,9 @@ tr:hover:not(.first_line) td:hover {
   background-color: #fdfdfd;
   box-shadow: 0px 0px 5px 0px #e0e0e0;
 }
+.post_detail {
+  font-size: 10px;
+}
 
 .box_form {
   height: 100%;
@@ -498,8 +519,8 @@ tr:hover:not(.first_line) td:hover {
 // ============================================================
 
 .avatar_box {
-  height: 100px;
-  width: 100px;
+  height: 94px;
+  width: 94px;
   border-radius: 50%;
   background-color: #ffffff;
   border: solid $primary;
@@ -514,6 +535,26 @@ tr:hover:not(.first_line) td:hover {
   border-radius: 50%;
   background-color: #ffffff;
   object-fit: cover;
+    flex-shrink: 0;
+}
+.avatar_box_mini {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: solid $primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar_mini {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  object-fit: cover;
+    flex-shrink: 0;
 }
 .edit_btn_profile {
   height: 28px;
@@ -583,9 +624,12 @@ tr:hover:not(.first_line) td:hover {
   background: white;
   border-radius: 15px;
   width: 60%;
-  min-height: 20rem;
+  height: 26.2rem;
 }
 
+.label_modale {
+  font-size: 16px;
+}
 .input_modale {
   width: 100%;
   height: 40px;
@@ -663,7 +707,6 @@ tr:hover:not(.first_line) td:hover {
     height: 100px;
     width: 100px;
     border-radius: 50%;
-    background-color: #ffffff;
     border: solid $primary;
     display: flex;
     justify-content: center;
@@ -673,8 +716,9 @@ tr:hover:not(.first_line) td:hover {
     height: 80px;
     width: 80px;
     border-radius: 50%;
-  background-color: #ffffff;
-  object-fit: cover;
+    background-color: #ffffff;
+    object-fit: cover;
+    flex-shrink: 0;
   }
 
 // ============================================================
@@ -712,7 +756,41 @@ footer {
 // ============================================================
 @media (max-width: 992px) {
   .character_size {
-    font-size: 12px;
+    font-size: 10px;
+  }
+  .character_size_title {
+  font-size: 16px;
+}
+  .nav_forum {
+    font-size: 14px;
+    gap: 5px;
+  }
+  .active {
+  border-bottom: $primary solid 2px;
+  font-size: 16px;
+  }
+  .salle_column_reservation {
+    width: 25px;
+  }
+  .invites-list {
+    max-height: 230px;     
+    overflow-y: auto;      
+    overflow-x: hidden;     
+  }
+  .modale-content {
+  width: 90%;
+  height: 35.2rem;
+  }
+  .label_modale {
+  font-size: 12px;
+  }
+  .input_modale {
+  width: 100%;
+  height: 30px;
+  border: solid rgb(211, 221, 249);
+  border-radius: 5px;
+  background-color: #f8fafc;
+  padding: 0 5px;
   }
   .navbar-brand {
     font-size: 16px;
@@ -806,6 +884,24 @@ footer {
   .btn_responsive_admin_nav.showed{
     border-color: $success;
   }
+  .avatar_adminspace_box {
+    height: 30px;
+    width: 30px;
+  }
+  .avatar_adminspace {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    object-fit: cover;
+  }
+  .avatar_adminspace_box {
+    height: 40px;
+    width: 40px;
+    background-color: #ffffff;
+    object-fit: cover;
+  }
+  
   .sombrer{
     background-color: rgba(0, 0, 0, 0.305);  
   }

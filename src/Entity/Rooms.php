@@ -3,15 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\RoomsRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
-#[UniqueEntity(fields: ['roomNumber'],message: 'Cette salle existe deja')]
+#[UniqueEntity(fields: ['roomNumber'], message: 'Cette salle existe deja')]
 class Rooms
 {
     #[ORM\Id]
@@ -91,17 +90,20 @@ class Rooms
     }
     /**
      * @var Collection<int, ReservationRoom>
-    */
+     */
     #[ORM\OneToMany(targetEntity: ReservationRoom::class, mappedBy: 'room', orphanRemoval: true)]
     private Collection $reservationRooms;
-    
+
     public function __construct()
     {
         $this->reservationRooms = new ArrayCollection();
     }
+
+    /**
+     * @return Collection<int, ReservationRoom>
+     */
     public function getReservationRooms(): Collection
     {
         return $this->reservationRooms;
     }
 }
-

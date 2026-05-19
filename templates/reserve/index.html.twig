@@ -1,12 +1,11 @@
 {% extends 'base/website.html.twig' %}
-
+{% block title %}Politique de confidentialité - SushiFactory{% endblock %}
 {% block main %}
       <div id="vue-app"
     data-users='{{ users|json_encode }}'
     data-reservationsrooms='{{ reservationsRooms|json_encode }}'
     data-reservationtypes='{{ reservationsTypes|json_encode }}'
     data-rooms='{{ rooms|json_encode }}'
-    data-avatars='{{ asset('images/avatar.png') }}'
     data-csrf='{{ csrf_token("reservation") }}'
     ></div>
 {% endblock %}

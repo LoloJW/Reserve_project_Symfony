@@ -27,7 +27,7 @@ class ChangePasswordFormType extends AbstractType
                         //     message: 'Please enter a password', Autre syntaxe possible
                         // ),
                         new Assert\NotBlank([
-                            "message"=> 'Les champs doivent être remplies',
+                            'message' => 'Les champs doivent être remplies',
                         ]),
                         new Assert\Length([
                             'min' => 12,

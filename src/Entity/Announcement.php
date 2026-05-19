@@ -127,7 +127,8 @@ class Announcement
 
         return $this;
     }
-        public function getSlug(): ?string
+
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
@@ -137,5 +138,25 @@ class Announcement
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function getLikesCount(): int
+    {
+        return $this->userLikes->count();
+    }
+
+    public function isLiked(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+        $userLikes = $this->userLikes;
+        foreach ($userLikes as $userLike) {
+            if ($userLike->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

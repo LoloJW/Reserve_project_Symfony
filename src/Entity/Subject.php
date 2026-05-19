@@ -34,13 +34,13 @@ class Subject
     /**
      * @var Collection<int, Post>
      */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'subject')]
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'subject', orphanRemoval: true)]
     private Collection $posts;
 
     /**
      * @var Collection<int, UserLike>
      */
-    #[ORM\OneToMany(targetEntity: UserLike::class, mappedBy: 'subject')]
+    #[ORM\OneToMany(targetEntity: UserLike::class, mappedBy: 'subject', orphanRemoval: true)]
     private Collection $userLikes;
 
     #[ORM\Column]
@@ -191,5 +191,25 @@ class Subject
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function getLikesCount(): int
+    {
+        return $this->userLikes->count();
+    }
+
+    public function isLiked(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+        $userLikes = $this->userLikes;
+        foreach ($userLikes as $likes) {
+            if ($likes->getUser() == $user) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

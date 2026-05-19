@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\AnnouncementRepository;
+use App\Repository\ReservationRoomRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -9,14 +12,36 @@ use Symfony\Component\Routing\Attribute\Route;
 final class WelcomeController extends AbstractController
 {
     #[Route('/', name: 'app_redirect_login_welcome')] // La page welcome par défaut sera app_login, et ensuite en fonction de si l'utilisateur est connecté
-    public function redirect_login_welcome(): Response // ou non, il redirigera vers la page welcome
+    public function redirectLoginWelcome(): Response // ou non, il redirigera vers la page welcome
     {
         return $this->redirectToRoute('app_login');
     }
 
     #[Route('/welcome', name: 'app_welcome')]
-    public function index(): Response
+    public function index(AnnouncementRepository $AR, ReservationRoomRepository $RR): Response
     {
-        return $this->render('welcome/index.html.twig');
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return $this->redirectToRoute('app_login');
+        }
+        $reservations = $RR->findReservationsWhereUserIsInvited($user);
+        $annonces = $AR->findBy([], ['createdAt' => 'DESC'], 2);
+
+        return $this->render('welcome/index.html.twig', [
+            'annonces' => $annonces,
+            'reservations' => $reservations,
+        ]);
+    }
+
+    #[Route('/welcome/confidential', name: 'app_welcome_confidential', methods: ['GET'])]
+    public function politiqueDeConfidentialite(): Response
+    {
+        return $this->render('/welcome/politique-confidentialite.html.twig');
+    }
+
+    #[Route('/welcome/mentions_legales', name: 'app_welcome_mentions', methods: ['GET'])]
+    public function mentionsLegales(): Response
+    {
+        return $this->render('/welcome/mentions-legales.html.twig');
     }
 }
