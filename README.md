@@ -16,12 +16,7 @@ Sushi Factory est une application permettant aux collaborateurs d'une entreprise
  
 Le projet couvre une stack web moderne de bout en bout : back-end Symfony, persistance via Doctrine, interface enrichie en Vue.js, et une chaîne qualité complète (tests, analyse statique, formatage automatique du code).
  
-🔗 **Démo en ligne :** [https://...]  <!-- ⬅️ ajoute ton lien si l'appli est hébergée, sinon supprime cette ligne -->
- 
-## 🖼️ Aperçu
- 
-<!-- ⬅️ Ajoute 1 à 3 captures (accueil, réservation, espace utilisateur). -->
-<!-- Place-les dans un dossier /docs et référence-les : ![Réservation](docs/reservation.png) -->
+🔗 **Démo en ligne : sushifactory.fr**
  
 ## ✨ Fonctionnalités
  
@@ -114,7 +109,7 @@ Ce projet démontre :
 **Laurent Saint-Georges** — Développeur full-stack (Symfony / Vue.js), issu d'un parcours en infographie 3D.
  
 - GitHub : [@LoloJW](https://github.com/LoloJW)
-- LinkedIn : [https://linkedin.com/in/...]   <!-- ⬅️ à compléter -->
+- LinkedIn : https://www.linkedin.com/in/laurent-saint-georges-infographiste3d-developpeur/
 ## 📄 Contexte
  
 Projet réalisé dans le cadre de la formation **Développeur Web et Web Mobile** (Titre professionnel, niveau Bac+2). Code partagé à des fins de présentation de portfolio.
